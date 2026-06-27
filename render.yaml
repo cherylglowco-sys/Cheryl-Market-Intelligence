@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: cheryl-market-intelligence
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeployTrigger: commit
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: DASHBOARD_USER
+        sync: false
+      - key: DASHBOARD_PASSWORD
+        sync: false

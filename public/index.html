@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cheryl Market Intelligence</title>
+    <link rel="stylesheet" href="/styles.css?v=mission-15">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Market intelligence suite</p>
+          <div class="brand-lockup"><span class="brand-mark">CMI</span><div><h1>Cheryl Market Intelligence</h1><p class="subtitle">Crypto, macro, equities, and commodity risk signals curated for your portfolio.</p></div></div>
+        </div>
+        <div class="command-stack">
+          <button id="refreshBtn" class="icon-button" title="Refresh now" aria-label="Refresh now">R</button>
+          <button id="notifyBtn" class="text-button">Enable alerts</button>
+          <select id="refreshSelect" aria-label="Refresh interval">
+            <option value="180000">3 min</option>
+            <option value="300000" selected>5 min</option>
+            <option value="600000">10 min</option>
+            <option value="0">Manual</option>
+          </select>
+        </div>
+      </header>
+
+      <section class="status-bar" aria-live="polite">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Initializing market systems...</span>
+      </section>
+
+      <section class="legend band">
+        <div><strong>Impact legend</strong><span>75-100% critical, 50-74% important, 25-49% watch, below 25% background noise.</span></div>
+        <div><strong>Score model</strong><span>Separate BTC, ETH, Macro, and Stocks percentages based on keywords, source quality, freshness, and relevance.</span></div>
+      </section>
+
+
+      <section class="tradingview-panel slim-tape" aria-label="TradingView live market tape">
+        <div class="tape-source"><span>TradingView</span><a href="https://www.tradingview.com/markets/" target="_blank" rel="noreferrer">Open</a></div>
+        <div class="local-tape" id="localMacroTape" aria-label="Local fallback macro prices updated on dashboard refresh"></div>
+        <div class="tradingview-frame-wrap">
+          <iframe class="tradingview-direct-frame" title="TradingView live market tape" src="https://www.tradingview-widget.com/embed-widget/ticker-tape/?locale=en#%7B%22symbols%22%3A%5B%7B%22proName%22%3A%22BITSTAMP%3ABTCUSD%22%2C%22title%22%3A%22BTC%22%7D%2C%7B%22proName%22%3A%22BITSTAMP%3AETHUSD%22%2C%22title%22%3A%22ETH%22%7D%2C%7B%22proName%22%3A%22TVC%3AGOLD%22%2C%22title%22%3A%22Gold%22%7D%2C%7B%22proName%22%3A%22TVC%3ASILVER%22%2C%22title%22%3A%22Silver%22%7D%2C%7B%22proName%22%3A%22TVC%3AUSOIL%22%2C%22title%22%3A%22WTI%22%7D%2C%7B%22proName%22%3A%22TVC%3AUKOIL%22%2C%22title%22%3A%22Brent%22%7D%2C%7B%22proName%22%3A%22TVC%3ACOPPER%22%2C%22title%22%3A%22Copper%22%7D%2C%7B%22proName%22%3A%22TVC%3ANATGAS%22%2C%22title%22%3A%22NatGas%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3ANVDA%22%2C%22title%22%3A%22NVDA%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3AMSFT%22%2C%22title%22%3A%22MSFT%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3AAMD%22%2C%22title%22%3A%22AMD%22%7D%2C%7B%22proName%22%3A%22NYSE%3ALLY%22%2C%22title%22%3A%22LLY%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3AAVGO%22%2C%22title%22%3A%22AVGO%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3AMETA%22%2C%22title%22%3A%22META%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3AQQQM%22%2C%22title%22%3A%22QQQM%22%7D%2C%7B%22proName%22%3A%22NASDAQ%3ASMH%22%2C%22title%22%3A%22SMH%22%7D%5D%2C%22showSymbolLogo%22%3Afalse%2C%22isTransparent%22%3Afalse%2C%22displayMode%22%3A%22adaptive%22%2C%22colorTheme%22%3A%22dark%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A46%2C%22locale%22%3A%22en%22%7D" loading="eager" scrolling="no" allowtransparency="true"></iframe>
+        </div>
+      </section>
+
+      <section class="pulse-grid" id="marketPulse"></section>
+
+      <section class="brief-grid">
+        <article class="brief-panel">
+          <div class="section-head"><div><p class="eyebrow">AI-style synthesis</p><h2>Daily Brief</h2></div><span id="briefMode" class="pill">Live</span></div>
+          <div id="dailyBrief" class="brief-copy">Building the briefing...</div>
+        </article>
+        <article class="brief-panel events-panel">
+          <div class="section-head"><div><p class="eyebrow">ForexFactory USD calendar</p><h2>Event Countdown</h2></div></div>
+          <div id="eventList" class="event-list"></div>
+        </article>
+      </section>
+
+      <section class="controls band">
+        <div class="control"><label for="searchInput">Search</label><input id="searchInput" type="search" placeholder="ticker, macro term, source"></div>
+        <div class="control"><label for="impactSelect">Minimum impact</label><select id="impactSelect"><option value="0">All signals</option><option value="25">Watch+</option><option value="50" selected>Important+</option><option value="75">Critical only</option></select></div>
+        <div class="control"><label for="laneSelect">Lane</label><select id="laneSelect"><option value="all">All lanes</option><option value="btc">Bitcoin</option><option value="eth">Ethereum</option><option value="macro">Macro</option><option value="stocks">Stocks</option><option value="alerts">High Impact Alerts</option></select></div>
+        <div class="control"><label for="alertThreshold">Alert threshold <strong id="thresholdValue">75%</strong></label><input id="alertThreshold" type="range" min="50" max="95" value="75" step="5"></div>
+      </section>
+
+      <section class="holdings" id="holdings"></section>
+
+      <section class="mission-layout">
+        <section class="lane-board">
+          <div class="section-head"><div><p class="eyebrow">Ranked intelligence lanes</p><h2>Impact Feed</h2></div><span id="itemCount" class="pill">0 items</span></div>
+          <div class="lanes" id="lanes"></div>
+        </section>
+        <aside class="side-rail">
+          <section class="rail-panel">
+            <div class="section-head compact"><div><p class="eyebrow">Browser notifications</p><h2>Alerts</h2></div></div>
+            <div id="alertList" class="stack-list"></div>
+          </section>
+          <section class="rail-panel">
+            <div class="section-head compact"><div><p class="eyebrow">ETF flow readout</p><h2>Flow Signals</h2></div></div>
+            <div id="etfSignals" class="stack-list"></div>
+          </section>
+          <section class="rail-panel sources-panel">
+            <div class="section-head compact"><div><p class="eyebrow">Source matrix</p><h2>Feeds</h2></div></div>
+            <div id="sourceList" class="source-list"></div>
+          </section>
+        </aside>
+      </section>
+    </main>
+
+    <template id="newsItemTemplate">
+      <article class="news-card">
+        <div class="score-ring"><strong class="score"></strong><span class="severity"></span></div>
+        <div class="news-main">
+          <div class="item-meta"><span class="source"></span><span class="dot"></span><span class="time"></span></div>
+          <a class="title" target="_blank" rel="noreferrer"></a>
+          <p class="why"></p>
+          <div class="score-bars"></div>
+          <div class="tag-row"></div>
+        </div>
+      </article>
+    </template>
+
+    <script>
+      // redirect stale 5173 server to the upgraded local server
+      if ((location.hostname === "localhost" && (location.port === "5173" || location.port === "5174" || location.port === "5175"))) {
+        location.replace("http://localhost:5176/" + location.search + location.hash);
+      }
+    </script>
+    <script src="/app.js?v=mission-15" type="module"></script>
+  </body>
+</html>

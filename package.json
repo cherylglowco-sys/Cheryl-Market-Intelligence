@@ -1,0 +1,13 @@
+{
+  "name": "cheryl-market-intelligence",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mission-control dashboard for Cheryl Market Intelligence.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
